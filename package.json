@@ -9,16 +9,28 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@excalidraw/excalidraw": "^0.18.0",
+    "@lexical/file": "^0.33.1",
+    "@lexical/headless": "^0.33.1",
+    "@lexical/react": "^0.33.1",
     "@react-router/node": "^7.5.3",
     "@react-router/serve": "^7.5.3",
     "isbot": "^5.1.27",
+    "katex": "^0.16.22",
+    "lexical": "^0.33.1",
+    "lodash-es": "^4.17.21",
+    "prettier": "^3.6.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router": "^7.5.3"
+    "react-router": "^7.5.3",
+    "y-websocket": "^3.0.0",
+    "yjs": "^13.6.27"
   },
   "devDependencies": {
     "@react-router/dev": "^7.5.3",
     "@tailwindcss/vite": "^4.1.4",
+    "@types/katex": "^0.16.7",
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^20",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
