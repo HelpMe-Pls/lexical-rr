@@ -1,12 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- *
- */
-
 .PollNode__container {
   border: 1px solid #eee;
   background-color: #fcfcfc;
@@ -92,7 +83,7 @@
   background-color: rgb(61, 135, 245);
 }
 .PollNode__optionCheckboxChecked:after {
-  content: '';
+  content: "";
   cursor: pointer;
   border-color: #fff;
   border-style: solid;
@@ -134,7 +125,7 @@
 .PollNode__optionDelete:after {
   position: absolute;
   display: block;
-  content: '';
+  content: "";
   background-color: #999;
   width: 2px;
   height: 15px;
