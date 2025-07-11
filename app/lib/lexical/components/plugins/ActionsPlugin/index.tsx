@@ -1,15 +1,14 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import type { LexicalEditor } from "lexical";
+import type { JSX } from "react";
 
 import { $createCodeNode, $isCodeNode } from "@lexical/code";
-import { exportFile, importFile } from "@lexical/file";
+import {
+  editorStateFromSerializedDocument,
+  exportFile,
+  importFile,
+  type SerializedDocument,
+  serializedDocumentFromEditorState,
+} from "@lexical/file";
 import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
@@ -23,14 +22,23 @@ import {
   $getRoot,
   $isParagraphNode,
   CLEAR_EDITOR_COMMAND,
+  CLEAR_HISTORY_COMMAND,
+  COLLABORATION_TAG,
   COMMAND_PRIORITY_EDITOR,
+  HISTORIC_TAG,
 } from "lexical";
-import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
 
+import useFlashMessage from "../../hooks/useFlashMessage";
 import useModal from "../../hooks/useModal";
+import { INITIAL_SETTINGS } from "../../settings/appSettings";
 import Button from "../../ui/Button";
+import { docFromHash, docToHash } from "../../utils/docSerialization";
 import { PLAYGROUND_TRANSFORMERS } from "../MarkdownTransformers";
+import {
+  SPEECH_TO_TEXT_COMMAND,
+  SUPPORT_SPEECH_RECOGNITION,
+} from "../SpeechToTextPlugin";
 
 async function sendEditorState(editor: LexicalEditor): Promise<void> {
   const stringifiedEditorState = JSON.stringify(editor.getEditorState());
@@ -70,10 +78,20 @@ async function validateEditorState(editor: LexicalEditor): Promise<void> {
   }
 }
 
+async function shareDoc(doc: SerializedDocument): Promise<void> {
+  const url = new URL(window.location.toString());
+  url.hash = await docToHash(doc);
+  const newUrl = url.toString();
+  window.history.replaceState({}, "", newUrl);
+  await window.navigator.clipboard.writeText(newUrl);
+}
+
 export default function ActionsPlugin({
   isRichText,
+  shouldPreserveNewLinesInMarkdown,
 }: {
   isRichText: boolean;
+  shouldPreserveNewLinesInMarkdown: boolean;
 }): JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
@@ -81,8 +99,19 @@ export default function ActionsPlugin({
   const [connected, setConnected] = useState(false);
   const [isEditorEmpty, setIsEditorEmpty] = useState(true);
   const [modal, showModal] = useModal();
+  const showFlashMessage = useFlashMessage();
   const { isCollabActive } = useCollaborationContext();
-
+  useEffect(() => {
+    if (INITIAL_SETTINGS.isCollab) {
+      return;
+    }
+    docFromHash(window.location.hash).then((doc) => {
+      if (doc && doc.source === "Playground") {
+        editor.setEditorState(editorStateFromSerializedDocument(editor, doc));
+        editor.dispatchCommand(CLEAR_HISTORY_COMMAND, undefined);
+      }
+    });
+  }, [editor]);
   useEffect(() => {
     return mergeRegister(
       editor.registerEditableListener((editable) => {
@@ -108,8 +137,8 @@ export default function ActionsPlugin({
         if (
           !isEditable &&
           dirtyElements.size > 0 &&
-          !tags.has("historic") &&
-          !tags.has("collaboration")
+          !tags.has(HISTORIC_TAG) &&
+          !tags.has(COLLABORATION_TAG)
         ) {
           validateEditorState(editor);
         }
@@ -139,22 +168,44 @@ export default function ActionsPlugin({
       if ($isCodeNode(firstChild) && firstChild.getLanguage() === "markdown") {
         $convertFromMarkdownString(
           firstChild.getTextContent(),
-          PLAYGROUND_TRANSFORMERS
+          PLAYGROUND_TRANSFORMERS,
+          undefined, // node
+          shouldPreserveNewLinesInMarkdown
         );
       } else {
-        const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
-        root
-          .clear()
-          .append(
-            $createCodeNode("markdown").append($createTextNode(markdown))
-          );
+        const markdown = $convertToMarkdownString(
+          PLAYGROUND_TRANSFORMERS,
+          undefined, //node
+          shouldPreserveNewLinesInMarkdown
+        );
+        const codeNode = $createCodeNode("markdown");
+        codeNode.append($createTextNode(markdown));
+        root.clear().append(codeNode);
+        if (markdown.length === 0) {
+          codeNode.select();
+        }
       }
-      root.selectEnd();
     });
-  }, [editor]);
+  }, [editor, shouldPreserveNewLinesInMarkdown]);
 
   return (
     <div className="actions">
+      {SUPPORT_SPEECH_RECOGNITION && (
+        <button
+          onClick={() => {
+            editor.dispatchCommand(SPEECH_TO_TEXT_COMMAND, !isSpeechToText);
+            setIsSpeechToText(!isSpeechToText);
+          }}
+          className={
+            "action-button action-button-mic " +
+            (isSpeechToText ? "active" : "")
+          }
+          title="Speech To Text"
+          aria-label={`${isSpeechToText ? "Enable" : "Disable"} speech to text`}
+        >
+          <i className="mic" />
+        </button>
+      )}
       <button
         className="action-button import"
         onClick={() => importFile(editor)}
@@ -163,6 +214,7 @@ export default function ActionsPlugin({
       >
         <i className="import" />
       </button>
+
       <button
         className="action-button export"
         onClick={() =>
@@ -175,6 +227,24 @@ export default function ActionsPlugin({
         aria-label="Export editor state to JSON"
       >
         <i className="export" />
+      </button>
+      <button
+        className="action-button share"
+        disabled={isCollabActive || INITIAL_SETTINGS.isCollab}
+        onClick={() =>
+          shareDoc(
+            serializedDocumentFromEditorState(editor.getEditorState(), {
+              source: "Playground",
+            })
+          ).then(
+            () => showFlashMessage("URL copied to clipboard"),
+            () => showFlashMessage("URL could not be copied to clipboard")
+          )
+        }
+        title="Share"
+        aria-label="Share Playground link to current editor state"
+      >
+        <i className="share" />
       </button>
       <button
         className="action-button clear"

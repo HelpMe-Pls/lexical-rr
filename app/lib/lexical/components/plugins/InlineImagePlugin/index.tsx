@@ -1,12 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-import type { Position } from "../../nodes/InlineImageNode";
-
 import "../../ui/Checkbox.css";
 
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
@@ -26,18 +17,19 @@ import {
   DRAGOVER_COMMAND,
   DRAGSTART_COMMAND,
   DROP_COMMAND,
-  LexicalCommand,
-  LexicalEditor,
+  type LexicalCommand,
+  type LexicalEditor,
 } from "lexical";
-import * as React from "react";
+import type { ChangeEvent, JSX } from "react";
 import { useEffect, useRef, useState } from "react";
-import { CAN_USE_DOM } from "@/components/editor/shared/canUseDOM";
+import { CAN_USE_DOM } from "../../shared/canUseDOM";
 
 import {
   $createInlineImageNode,
   $isInlineImageNode,
   InlineImageNode,
-  InlineImagePayload,
+  type InlineImagePayload,
+  type Position,
 } from "../../nodes/InlineImageNode";
 import Button from "../../ui/Button";
 import { DialogActions } from "../../ui/Dialog";
@@ -69,11 +61,11 @@ export function InsertInlineImageDialog({
 
   const isDisabled = src === "";
 
-  const handleShowCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleShowCaptionChange = (e: ChangeEvent<HTMLInputElement>) => {
     setShowCaption(e.target.checked);
   };
 
-  const handlePositionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handlePositionChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setPosition(e.target.value as Position);
   };
 

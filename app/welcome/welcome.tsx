@@ -2,11 +2,13 @@ import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import type { JSX } from "react";
 
 import { SharedHistoryContext } from "~/lib/lexical/components//context/SharedHistoryContext";
+import { FlashMessageContext } from "~/lib/lexical/components/context/FlashMessageContext";
 import {
   SettingsContext,
   useSettings,
 } from "~/lib/lexical/components/context/SettingsContext";
 import { SharedAutocompleteContext } from "~/lib/lexical/components/context/SharedAutocompleteContext";
+import { ToolbarContext } from "~/lib/lexical/components/context/ToolbarContext";
 import PlaygroundNodes from "~/lib/lexical/components/nodes/PlaygroundNodes";
 import DocsPlugin from "~/lib/lexical/components/plugins/DocsPlugin";
 import PasteLogPlugin from "~/lib/lexical/components/plugins/PasteLogPlugin";
@@ -33,21 +35,25 @@ export default function LexicalEditor(): JSX.Element {
   };
 
   return (
-    <SettingsContext>
-      <LexicalComposer initialConfig={initialConfig}>
-        <SharedHistoryContext>
-          <TableContext>
-            <SharedAutocompleteContext>
-              <div className="editor-shell">
-                <Editor />
-              </div>
-              <Settings />
-              {isDevPlayground ? <DocsPlugin /> : null}
-              {isDevPlayground ? <PasteLogPlugin /> : null}
-            </SharedAutocompleteContext>
-          </TableContext>
-        </SharedHistoryContext>
-      </LexicalComposer>
-    </SettingsContext>
+    <FlashMessageContext>
+      <SettingsContext>
+        <LexicalComposer initialConfig={initialConfig}>
+          <SharedHistoryContext>
+            <TableContext>
+              <ToolbarContext>
+                <SharedAutocompleteContext>
+                  <div className="editor-shell">
+                    <Editor />
+                  </div>
+                  <Settings />
+                  {isDevPlayground ? <DocsPlugin /> : null}
+                  {isDevPlayground ? <PasteLogPlugin /> : null}
+                </SharedAutocompleteContext>
+              </ToolbarContext>
+            </TableContext>
+          </SharedHistoryContext>
+        </LexicalComposer>
+      </SettingsContext>
+    </FlashMessageContext>
   );
 }

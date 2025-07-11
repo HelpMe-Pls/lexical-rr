@@ -1,16 +1,8 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   LexicalContextMenuPlugin,
   MenuOption,
-} from '@lexical/react/LexicalContextMenuPlugin';
+} from "@lexical/react/LexicalContextMenuPlugin";
 import {
   type LexicalNode,
   $getSelection,
@@ -18,10 +10,10 @@ import {
   COPY_COMMAND,
   CUT_COMMAND,
   PASTE_COMMAND,
-} from 'lexical';
-import {useCallback, useMemo} from 'react';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+} from "lexical";
+import type { JSX } from "react";
+import { useCallback, useMemo } from "react";
+import { createPortal } from "react-dom";
 
 function ContextMenuItem({
   index,
@@ -36,9 +28,9 @@ function ContextMenuItem({
   onMouseEnter: () => void;
   option: ContextMenuOption;
 }) {
-  let className = 'item';
+  let className = "item";
   if (isSelected) {
-    className += ' selected';
+    className += " selected";
   }
   return (
     <li
@@ -48,9 +40,10 @@ function ContextMenuItem({
       ref={option.setRefElement}
       role="option"
       aria-selected={isSelected}
-      id={'typeahead-item-' + index}
+      id={"typeahead-item-" + index}
       onMouseEnter={onMouseEnter}
-      onClick={onClick}>
+      onClick={onClick}
+    >
       <span className="text">{option.title}</span>
     </li>
   );
@@ -92,7 +85,7 @@ export class ContextMenuOption extends MenuOption {
     title: string,
     options: {
       onSelect: (targetNode: LexicalNode | null) => void;
-    },
+    }
   ) {
     super(title);
     this.title = title;
@@ -125,10 +118,10 @@ export default function ContextMenuPlugin(): JSX.Element {
 
             const permission = await navigator.permissions.query({
               // @ts-ignore These types are incorrect.
-              name: 'clipboard-read',
+              name: "clipboard-read",
             });
-            if (permission.state === 'denied') {
-              alert('Not allowed to paste from clipboard.');
+            if (permission.state === "denied") {
+              alert("Not allowed to paste from clipboard.");
               return;
             }
 
@@ -137,7 +130,7 @@ export default function ContextMenuPlugin(): JSX.Element {
               data.setData(type, dataString);
             }
 
-            const event = new ClipboardEvent('paste', {
+            const event = new ClipboardEvent("paste", {
               clipboardData: data,
             });
 
@@ -150,19 +143,19 @@ export default function ContextMenuPlugin(): JSX.Element {
           navigator.clipboard.read().then(async (...args) => {
             const permission = await navigator.permissions.query({
               // @ts-ignore These types are incorrect.
-              name: 'clipboard-read',
+              name: "clipboard-read",
             });
 
-            if (permission.state === 'denied') {
-              alert('Not allowed to paste from clipboard.');
+            if (permission.state === "denied") {
+              alert("Not allowed to paste from clipboard.");
               return;
             }
 
             const data = new DataTransfer();
             const items = await navigator.clipboard.readText();
-            data.setData('text/plain', items);
+            data.setData("text/plain", items);
 
-            const event = new ClipboardEvent('paste', {
+            const event = new ClipboardEvent("paste", {
               clipboardData: data,
             });
             editor.dispatchCommand(PASTE_COMMAND, event);
@@ -189,14 +182,14 @@ export default function ContextMenuPlugin(): JSX.Element {
     (
       selectedOption: ContextMenuOption,
       targetNode: LexicalNode | null,
-      closeMenu: () => void,
+      closeMenu: () => void
     ) => {
       editor.update(() => {
         selectedOption.onSelect(targetNode);
         closeMenu();
       });
     },
-    [editor],
+    [editor]
   );
 
   return (
@@ -211,18 +204,19 @@ export default function ContextMenuPlugin(): JSX.Element {
           selectOptionAndCleanUp,
           setHighlightedIndex,
         },
-        {setMenuRef},
+        { setMenuRef }
       ) =>
         anchorElementRef.current
-          ? ReactDOM.createPortal(
+          ? createPortal(
               <div
                 className="typeahead-popover auto-embed-menu"
                 style={{
                   marginLeft: anchorElementRef.current.style.width,
-                  userSelect: 'none',
+                  userSelect: "none",
                   width: 200,
                 }}
-                ref={setMenuRef}>
+                ref={setMenuRef}
+              >
                 <ContextMenu
                   options={options}
                   selectedItemIndex={selectedIndex}
@@ -235,7 +229,7 @@ export default function ContextMenuPlugin(): JSX.Element {
                   }}
                 />
               </div>,
-              anchorElementRef.current,
+              anchorElementRef.current
             )
           : null
       }

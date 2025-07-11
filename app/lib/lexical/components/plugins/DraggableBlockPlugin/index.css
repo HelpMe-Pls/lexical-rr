@@ -7,20 +7,30 @@
   left: 0;
   top: 0;
   will-change: transform;
+  display: flex;
+  gap: 2px;
 }
 
 .draggable-block-menu .icon {
   width: 16px;
   height: 16px;
   opacity: 0.3;
-  background-image: url(/icons/draggable-block-menu.svg);
+  background-image: url(../../images/icons/draggable-block-menu.svg);
+}
+
+.draggable-block-menu .icon-plus {
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: url(../../images/icons/plus.svg);
 }
 
 .draggable-block-menu:active {
   cursor: grabbing;
 }
 
-.draggable-block-menu:hover {
+.draggable-block-menu .icon:hover {
   background-color: #efefef;
 }
 

@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import "./Collapsible.css";
 
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
@@ -30,8 +22,8 @@ import {
   KEY_ARROW_LEFT_COMMAND,
   KEY_ARROW_RIGHT_COMMAND,
   KEY_ARROW_UP_COMMAND,
-  LexicalNode,
-  NodeKey,
+  type LexicalNode,
+  type NodeKey,
 } from "lexical";
 import { useEffect } from "react";
 

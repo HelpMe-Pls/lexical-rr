@@ -10,7 +10,7 @@ type Props = {
   title?: string;
   stopCloseOnClickSelf?: boolean;
   color: string;
-  onChange?: (color: string) => void;
+  onChange?: (color: string, skipHistoryStack: boolean) => void;
 };
 
 export default function DropdownColorPicker({

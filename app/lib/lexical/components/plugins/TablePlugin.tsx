@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $createTableNodeWithDimensions,
@@ -16,15 +8,15 @@ import {
   $insertNodes,
   COMMAND_PRIORITY_EDITOR,
   createCommand,
-  EditorThemeClasses,
-  Klass,
-  LexicalCommand,
-  LexicalEditor,
-  LexicalNode,
+  type EditorThemeClasses,
+  type Klass,
+  type LexicalCommand,
+  type LexicalEditor,
+  type LexicalNode,
 } from "lexical";
+import type { JSX } from "react";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import * as React from "react";
-import invariant from "@/components/editor/shared/invariant";
+import invariant from "../shared/invariant";
 
 import Button from "../ui/Button";
 import { DialogActions } from "../ui/Dialog";

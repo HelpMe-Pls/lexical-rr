@@ -1,16 +1,8 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 import "./index.css";
 
 import { $isCodeNode } from "@lexical/code";
-import { $getNearestNodeFromDOMNode, LexicalEditor } from "lexical";
-import { Options } from "prettier";
-import * as React from "react";
+import { $getNearestNodeFromDOMNode, type LexicalEditor } from "lexical";
+import type { Options } from "prettier";
 import { useState } from "react";
 
 interface Props {

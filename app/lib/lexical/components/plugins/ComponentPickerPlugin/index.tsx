@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import { $createCodeNode } from "@lexical/code";
 import {
   INSERT_CHECK_LIST_COMMAND,
@@ -28,12 +20,12 @@ import {
   $getSelection,
   $isRangeSelection,
   FORMAT_ELEMENT_COMMAND,
-  LexicalEditor,
+  type LexicalEditor,
   TextNode,
 } from "lexical";
+import type { JSX } from "react";
 import { useCallback, useMemo, useState } from "react";
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createPortal } from "react-dom";
 
 import useModal from "../../hooks/useModal";
 import { EmbedConfigs } from "../AutoEmbedPlugin";
@@ -370,7 +362,7 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
           { selectedIndex, selectOptionAndCleanUp, setHighlightedIndex }
         ) =>
           anchorElementRef.current && options.length
-            ? ReactDOM.createPortal(
+            ? createPortal(
                 <div className="typeahead-popover component-picker-menu">
                   <ul>
                     {options.map((option, i: number) => (
