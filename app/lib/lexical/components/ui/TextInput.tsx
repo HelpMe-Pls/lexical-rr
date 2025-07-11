@@ -1,18 +1,9 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
+import "./Input.css";
 
-import './Input.css';
-
-import * as React from 'react';
-import {HTMLInputTypeAttribute} from 'react';
+import type { HTMLInputTypeAttribute, JSX } from "react";
 
 type Props = Readonly<{
-  'data-test-id'?: string;
+  "data-test-id"?: string;
   label: string;
   onChange: (val: string) => void;
   placeholder?: string;
@@ -24,9 +15,9 @@ export default function TextInput({
   label,
   value,
   onChange,
-  placeholder = '',
-  'data-test-id': dataTestId,
-  type = 'text',
+  placeholder = "",
+  "data-test-id": dataTestId,
+  type = "text",
 }: Props): JSX.Element {
   return (
     <div className="Input__wrapper">
