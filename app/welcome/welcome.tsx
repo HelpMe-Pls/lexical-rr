@@ -13,31 +13,32 @@ import {
   TextNode,
 } from "lexical";
 
-import { FlashMessageContext } from "~/lib/lexical/components/context/FlashMessageContext";
+import ClientOnly from "~/lib/lexical/utils/clientOnly";
+import { getIsDevPlayground } from "../lib/lexical/appSettings";
+import { FlashMessageContext } from "../lib/lexical/context/FlashMessageContext";
 import {
   SettingsContext,
   useSettings,
-} from "~/lib/lexical/components/context/SettingsContext";
-import { SharedHistoryContext } from "~/lib/lexical/components/context/SharedHistoryContext";
-import { ToolbarContext } from "~/lib/lexical/components/context/ToolbarContext";
-import logo from "~/lib/lexical/components/images/logo.svg";
-import PlaygroundNodes from "~/lib/lexical/components/nodes/PlaygroundNodes";
-import DocsPlugin from "~/lib/lexical/components/plugins/DocsPlugin";
-import PasteLogPlugin from "~/lib/lexical/components/plugins/PasteLogPlugin";
-import { TableContext } from "~/lib/lexical/components/plugins/TablePlugin";
-import { getIsDevPlayground } from "~/lib/lexical/components/settings/appSettings";
-
-import { parseAllowedFontSize } from "~/lib/lexical/components/plugins/ToolbarPlugin/fontSize";
-import Settings from "~/lib/lexical/components/settings/Settings";
-import PlaygroundEditorTheme from "~/lib/lexical/components/themes/PlaygroundEditorTheme";
-import { parseAllowedColor } from "~/lib/lexical/components/ui/ColorPicker";
-import ClientOnly from "~/lib/lexical/components/utils/ClientOnly";
+} from "../lib/lexical/context/SettingsContext";
+import { SharedHistoryContext } from "../lib/lexical/context/SharedHistoryContext";
+import { ToolbarContext } from "../lib/lexical/context/ToolbarContext";
+import logo from "../lib/lexical/images/logo.svg";
+import PlaygroundNodes from "../lib/lexical/nodes/PlaygroundNodes";
+import DocsPlugin from "../lib/lexical/plugins/DocsPlugin";
+import PasteLogPlugin from "../lib/lexical/plugins/PasteLogPlugin";
+import { TableContext } from "../lib/lexical/plugins/TablePlugin";
+import TestRecorderPlugin from "../lib/lexical/plugins/TestRecorderPlugin";
+import { parseAllowedFontSize } from "../lib/lexical/plugins/ToolbarPlugin/fontSize";
+import TypingPerfPlugin from "../lib/lexical/plugins/TypingPerfPlugin";
+import Settings from "../lib/lexical/Settings";
+import PlaygroundEditorTheme from "../lib/lexical/themes/PlaygroundEditorTheme";
+import { parseAllowedColor } from "../lib/lexical/ui/ColorPicker";
 
 console.warn(
   "If you are profiling the playground app, please ensure you turn off the debug view. You can disable it by pressing on the settings control in the bottom-left of your screen and toggling the debug view setting."
 );
 
-const Editor = lazy(() => import("~/lib/lexical/editor"));
+const Editor = lazy(() => import("../lib/lexical/Editor"));
 
 function $prepopulatedRichText() {
   const root = $getRoot();
@@ -186,7 +187,7 @@ function buildImportMap(): DOMConversionMap {
 
 function App(): JSX.Element {
   const {
-    settings: { isCollab, emptyEditor },
+    settings: { isCollab, emptyEditor, measureTypingPerf },
   } = useSettings();
 
   const initialConfig = {
@@ -220,6 +221,9 @@ function App(): JSX.Element {
             <Settings />
             {getIsDevPlayground() ? <DocsPlugin /> : null}
             {getIsDevPlayground() ? <PasteLogPlugin /> : null}
+            {getIsDevPlayground() ? <TestRecorderPlugin /> : null}
+
+            {measureTypingPerf ? <TypingPerfPlugin /> : null}
           </ToolbarContext>
         </TableContext>
       </SharedHistoryContext>
