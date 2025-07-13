@@ -95,10 +95,8 @@ async function shareDoc(doc: SerializedDocument): Promise<void> {
 }
 
 export default function ActionsPlugin({
-  isRichText,
   shouldPreserveNewLinesInMarkdown,
 }: {
-  isRichText: boolean;
   shouldPreserveNewLinesInMarkdown: boolean;
 }): JSX.Element {
   const [editor] = useLexicalComposerContext();

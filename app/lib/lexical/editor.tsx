@@ -14,7 +14,6 @@ import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
 import { ClickableLinkPlugin } from "@lexical/react/LexicalClickableLinkPlugin";
 import { CollaborationPlugin } from "@lexical/react/LexicalCollaborationPlugin";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
@@ -31,14 +30,12 @@ import { useEffect, useState } from "react";
 
 import { useSettings } from "./packages/context/SettingsContext";
 import { useSharedHistoryContext } from "./packages/context/SharedHistoryContext";
-import ActionsPlugin from "./packages/plugins/ActionsPlugin";
 import AutocompletePlugin from "./packages/plugins/AutocompletePlugin";
 import AutoEmbedPlugin from "./packages/plugins/AutoEmbedPlugin";
 import AutoLinkPlugin from "./packages/plugins/AutoLinkPlugin";
 import CodeActionMenuPlugin from "./packages/plugins/CodeActionMenuPlugin";
 import CodeHighlightPlugin from "./packages/plugins/CodeHighlightPlugin";
 import CollapsiblePlugin from "./packages/plugins/CollapsiblePlugin";
-import CommentPlugin from "./packages/plugins/CommentPlugin";
 import ComponentPickerPlugin from "./packages/plugins/ComponentPickerPlugin";
 import ContextMenuPlugin from "./packages/plugins/ContextMenuPlugin";
 import DragDropPaste from "./packages/plugins/DragDropPastePlugin";
@@ -60,7 +57,6 @@ import { MaxLengthPlugin } from "./packages/plugins/MaxLengthPlugin";
 import MentionsPlugin from "./packages/plugins/MentionsPlugin";
 import PageBreakPlugin from "./packages/plugins/PageBreakPlugin";
 import PollPlugin from "./packages/plugins/PollPlugin";
-import ShortcutsPlugin from "./packages/plugins/ShortcutsPlugin";
 import SpecialTextPlugin from "./packages/plugins/SpecialTextPlugin";
 import SpeechToTextPlugin from "./packages/plugins/SpeechToTextPlugin";
 import TabFocusPlugin from "./packages/plugins/TabFocusPlugin";
@@ -68,8 +64,6 @@ import TableCellActionMenuPlugin from "./packages/plugins/TableActionMenuPlugin"
 import TableCellResizer from "./packages/plugins/TableCellResizer";
 import TableHoverActionsPlugin from "./packages/plugins/TableHoverActionsPlugin";
 import TableOfContentsPlugin from "./packages/plugins/TableOfContentsPlugin";
-import ToolbarPlugin from "./packages/plugins/ToolbarPlugin";
-import TreeViewPlugin from "./packages/plugins/TreeViewPlugin";
 import TwitterPlugin from "./packages/plugins/TwitterPlugin";
 import YouTubePlugin from "./packages/plugins/YouTubePlugin";
 import ContentEditable from "./packages/ui/ContentEditable";
@@ -93,7 +87,7 @@ export default function Editor(): JSX.Element {
       showTreeView,
       showTableOfContents,
       shouldUseLexicalContextMenu,
-      shouldPreserveNewLinesInMarkdown,
+      // shouldPreserveNewLinesInMarkdown,
       tableCellMerge,
       tableCellBackgroundColor,
       tableHorizontalScroll,
@@ -112,8 +106,8 @@ export default function Editor(): JSX.Element {
     useState<HTMLDivElement | null>(null);
   const [isSmallWidthViewport, setIsSmallWidthViewport] =
     useState<boolean>(false);
-  const [editor] = useLexicalComposerContext();
-  const [activeEditor, setActiveEditor] = useState(editor);
+  // const [editor] = useLexicalComposerContext();
+  // const [activeEditor, setActiveEditor] = useState(editor);
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
@@ -141,6 +135,7 @@ export default function Editor(): JSX.Element {
 
   return (
     <>
+      {/* NOTE: Re-enable this for `/dashboard`
       {isRichText && (
         <ToolbarPlugin
           editor={editor}
@@ -154,7 +149,7 @@ export default function Editor(): JSX.Element {
           editor={activeEditor}
           setIsLinkEditMode={setIsLinkEditMode}
         />
-      )}
+      )} */}
       <div
         className={`editor-container ${showTreeView ? "tree-view" : ""} ${
           !isRichText ? "plain-text" : ""
@@ -174,9 +169,10 @@ export default function Editor(): JSX.Element {
         <KeywordsPlugin />
         <SpeechToTextPlugin />
         <AutoLinkPlugin />
+        {/* NOTE: Re-enable this once you figure out how to persist it to the db 
         <CommentPlugin
           providerFactory={isCollab ? createWebsocketProvider : undefined}
-        />
+        /> */}
         {isRichText ? (
           <>
             {isCollab ? (
@@ -268,12 +264,13 @@ export default function Editor(): JSX.Element {
         <div>{showTableOfContents && <TableOfContentsPlugin />}</div>
         {shouldUseLexicalContextMenu && <ContextMenuPlugin />}
         {shouldAllowHighlightingWithBrackets && <SpecialTextPlugin />}
+        {/* // NOTE: Re-enable this for `/dashboard`
         <ActionsPlugin
-          isRichText={isRichText}
-          shouldPreserveNewLinesInMarkdown={shouldPreserveNewLinesInMarkdown}
-        />
+          // // shouldPreserveNewLinesInMarkdown={shouldPreserveNewLinesInMarkdown}
+        /> */}
       </div>
-      {showTreeView && <TreeViewPlugin />}
+      {/* INFO: For debugging
+      {showTreeView && <TreeViewPlugin />} */}
     </>
   );
 }
