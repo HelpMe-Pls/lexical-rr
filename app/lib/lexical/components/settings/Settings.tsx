@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 
 import { useSettings } from "../context/SettingsContext";
 import Switch from "../ui/Switch";
-import { isDevPlayground } from "./appSettings";
+import { getIsDevPlayground } from "./appSettings";
 
 export default function Settings(): JSX.Element {
   const windowLocation = window.location;
@@ -42,7 +42,7 @@ export default function Settings(): JSX.Element {
       />
       {showSettings ? (
         <div className="switches">
-          {isDevPlayground && (
+          {getIsDevPlayground() && (
             <Switch
               onClick={() => {
                 if (isSplitScreen) {

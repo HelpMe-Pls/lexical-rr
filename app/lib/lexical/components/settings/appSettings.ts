@@ -1,13 +1,16 @@
-const hostName = typeof window !== "undefined" ? window.location.hostname : "";
-
-export const isDevPlayground: boolean =
-  // TODO: Update `hostName` for deployed urls
-  hostName !== "playground.lexical.dev" &&
-  hostName !== "lexical-playground.vercel.app";
+export function getIsDevPlayground(): boolean {
+  if (typeof window === "undefined") return false; // Safe default for SSR
+  const hostName = window.location.hostname;
+  return (
+    // TODO: Update `hostName` for deployed urls
+    hostName !== "playground.lexical.dev" &&
+    hostName !== "lexical-playground.vercel.app"
+  );
+}
 
 export const DEFAULT_SETTINGS = {
   disableBeforeInput: false,
-  emptyEditor: isDevPlayground,
+  emptyEditor: getIsDevPlayground(),
   hasLinkAttributes: false,
   isAutocomplete: false,
   isCharLimit: false,
