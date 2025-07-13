@@ -58,6 +58,8 @@ import {
 } from "lexical";
 import { type Dispatch, useCallback, useEffect, useState } from "react";
 
+import { getSelectedNode } from "../../../utils/getSelectedNode";
+import { sanitizeUrl } from "../../../utils/url";
 import {
   blockTypeToBlockName,
   useToolbarState,
@@ -67,8 +69,6 @@ import catTypingGif from "../../images/cat-typing.gif";
 import { $createStickyNode } from "../../nodes/StickyNode";
 import DropDown, { DropDownItem } from "../../ui/DropDown";
 import DropdownColorPicker from "../../ui/DropdownColorPicker";
-import { getSelectedNode } from "../../utils/getSelectedNode";
-import { sanitizeUrl } from "../../utils/url";
 import { EmbedConfigs } from "../AutoEmbedPlugin";
 import { INSERT_COLLAPSIBLE_COMMAND } from "../CollapsiblePlugin";
 import { InsertEquationDialog } from "../EquationsPlugin";

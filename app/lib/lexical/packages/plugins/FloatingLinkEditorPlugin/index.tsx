@@ -36,9 +36,9 @@ import * as React from "react";
 import { type Dispatch, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { getSelectedNode } from "../../utils/getSelectedNode";
-import { setFloatingElemPositionForLinkEditor } from "../../utils/setFloatingElemPositionForLinkEditor";
-import { sanitizeUrl } from "../../utils/url";
+import { getSelectedNode } from "../../../utils/getSelectedNode";
+import { setFloatingElemPositionForLinkEditor } from "../../../utils/setFloatingElemPositionForLinkEditor";
+import { sanitizeUrl } from "../../../utils/url";
 
 function preventDefault(
   event: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>

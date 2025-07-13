@@ -42,6 +42,7 @@ import {
   type LexicalNode,
 } from "lexical";
 
+import emojiList from "../../../utils/emoji-list";
 import {
   $createEquationNode,
   $isEquationNode,
@@ -57,7 +58,6 @@ import {
   $isTweetNode,
   TweetNode,
 } from "../../nodes/TweetNode";
-import emojiList from "../../utils/emoji-list";
 
 export const HR: ElementTransformer = {
   dependencies: [HorizontalRuleNode],

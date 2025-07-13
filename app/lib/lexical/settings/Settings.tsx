@@ -11,9 +11,9 @@ import type { JSX } from "react";
 import { CAN_USE_BEFORE_INPUT } from "@lexical/utils";
 import { useEffect, useMemo, useState } from "react";
 
+import { useSettings } from "../packages/context/SettingsContext";
+import Switch from "../packages/ui/Switch";
 import { INITIAL_SETTINGS, getIsDevPlayground } from "./appSettings";
-import { useSettings } from "./context/SettingsContext";
-import Switch from "./ui/Switch";
 
 export default function Settings(): JSX.Element {
   const windowLocation = window.location;

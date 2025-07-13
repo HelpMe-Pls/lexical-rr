@@ -13,26 +13,26 @@ import {
   TextNode,
 } from "lexical";
 
-import ClientOnly from "~/lib/lexical/utils/clientOnly";
-import { getIsDevPlayground } from "../lib/lexical/appSettings";
-import { FlashMessageContext } from "../lib/lexical/context/FlashMessageContext";
+import { FlashMessageContext } from "~/lib/lexical/packages/context/FlashMessageContext";
 import {
   SettingsContext,
   useSettings,
-} from "../lib/lexical/context/SettingsContext";
-import { SharedHistoryContext } from "../lib/lexical/context/SharedHistoryContext";
-import { ToolbarContext } from "../lib/lexical/context/ToolbarContext";
-import logo from "../lib/lexical/images/logo.svg";
-import PlaygroundNodes from "../lib/lexical/nodes/PlaygroundNodes";
-import DocsPlugin from "../lib/lexical/plugins/DocsPlugin";
-import PasteLogPlugin from "../lib/lexical/plugins/PasteLogPlugin";
-import { TableContext } from "../lib/lexical/plugins/TablePlugin";
-import TestRecorderPlugin from "../lib/lexical/plugins/TestRecorderPlugin";
-import { parseAllowedFontSize } from "../lib/lexical/plugins/ToolbarPlugin/fontSize";
-import TypingPerfPlugin from "../lib/lexical/plugins/TypingPerfPlugin";
-import Settings from "../lib/lexical/Settings";
-import PlaygroundEditorTheme from "../lib/lexical/themes/PlaygroundEditorTheme";
-import { parseAllowedColor } from "../lib/lexical/ui/ColorPicker";
+} from "~/lib/lexical/packages/context/SettingsContext";
+import { SharedHistoryContext } from "~/lib/lexical/packages/context/SharedHistoryContext";
+import { ToolbarContext } from "~/lib/lexical/packages/context/ToolbarContext";
+import logo from "~/lib/lexical/packages/images/logo.svg";
+import PlaygroundNodes from "~/lib/lexical/packages/nodes/PlaygroundNodes";
+import DocsPlugin from "~/lib/lexical/packages/plugins/DocsPlugin";
+import PasteLogPlugin from "~/lib/lexical/packages/plugins/PasteLogPlugin";
+import { TableContext } from "~/lib/lexical/packages/plugins/TablePlugin";
+import TestRecorderPlugin from "~/lib/lexical/packages/plugins/TestRecorderPlugin";
+import { parseAllowedFontSize } from "~/lib/lexical/packages/plugins/ToolbarPlugin/fontSize";
+import TypingPerfPlugin from "~/lib/lexical/packages/plugins/TypingPerfPlugin";
+import PlaygroundEditorTheme from "~/lib/lexical/packages/themes/PlaygroundEditorTheme";
+import { parseAllowedColor } from "~/lib/lexical/packages/ui/ColorPicker";
+import { getIsDevPlayground } from "~/lib/lexical/settings/appSettings";
+import Settings from "~/lib/lexical/settings/Settings";
+import ClientOnly from "~/lib/lexical/utils/clientOnly";
 
 console.warn(
   "If you are profiling the playground app, please ensure you turn off the debug view. You can disable it by pressing on the settings control in the bottom-left of your screen and toggling the debug view setting."

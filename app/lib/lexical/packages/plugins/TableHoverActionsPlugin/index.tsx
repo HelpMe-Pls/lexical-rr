@@ -34,7 +34,7 @@ import * as React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { getThemeSelector } from "../../utils/getThemeSelector";
+import { getThemeSelector } from "../../../utils/getThemeSelector";
 import { useDebounce } from "../CodeActionMenuPlugin/utils";
 
 const BUTTON_WIDTH_PX = 20;

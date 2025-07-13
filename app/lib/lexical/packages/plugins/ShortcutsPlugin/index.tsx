@@ -20,8 +20,8 @@ import {
 } from "lexical";
 import { type Dispatch, useEffect } from "react";
 
+import { sanitizeUrl } from "../../../utils/url";
 import { useToolbarState } from "../../context/ToolbarContext";
-import { sanitizeUrl } from "../../utils/url";
 import { INSERT_INLINE_COMMAND } from "../CommentPlugin";
 import {
   clearFormatting,
