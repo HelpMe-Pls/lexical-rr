@@ -3,8 +3,13 @@ import { type JSX, lazy } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { $isTextNode, type DOMConversionMap, TextNode } from "lexical";
 
-import { useSettings } from "~/lib/lexical/packages/context/SettingsContext";
+import { FlashMessageContext } from "~/lib/lexical/packages/context/FlashMessageContext";
+import {
+  SettingsContext,
+  useSettings,
+} from "~/lib/lexical/packages/context/SettingsContext";
 import { SharedHistoryContext } from "~/lib/lexical/packages/context/SharedHistoryContext";
+import { ToolbarContext } from "~/lib/lexical/packages/context/ToolbarContext";
 import PlaygroundNodes from "~/lib/lexical/packages/nodes/PlaygroundNodes";
 import { TableContext } from "~/lib/lexical/packages/plugins/TablePlugin";
 import { parseAllowedFontSize } from "~/lib/lexical/packages/plugins/ToolbarPlugin/fontSize";
@@ -87,7 +92,7 @@ function App(): JSX.Element {
   const contentPath = "/fc3.lexical";
 
   const initialConfig = {
-    editable: false, // NOTE: Re-enable this for `/dashboard`
+    editable: true, // NOTE: Re-enable this for `/dashboard`
     editorState: isCollab ? null : undefined,
     html: { import: buildImportMap() },
     namespace: "Playground",
@@ -102,22 +107,22 @@ function App(): JSX.Element {
     <LexicalComposer initialConfig={initialConfig}>
       <SharedHistoryContext>
         <TableContext>
-          {/* <ToolbarContext>
-            <header>
+          <ToolbarContext>
+            {/* <header>
               <a href="https://lexical.dev" target="_blank" rel="noreferrer">
                 <img src={logo} alt="Lexical Logo" />
               </a>
             </header> */}
-          <div className="editor-shell">
-            <ReadOnlyContent filePath={contentPath} />
-            <Editor />
-          </div>
-          {/* <Settings /> */}
-          {/* {getIsDevPlayground() ? <DocsPlugin /> : null}
+            <div className="editor-shell">
+              <ReadOnlyContent filePath={contentPath} />
+              <Editor />
+            </div>
+            {/* <Settings /> */}
+            {/* {getIsDevPlayground() ? <DocsPlugin /> : null}
             {getIsDevPlayground() ? <PasteLogPlugin /> : null}
             {getIsDevPlayground() ? <TestRecorderPlugin /> : null}
             {measureTypingPerf ? <TypingPerfPlugin /> : null} */}
-          {/* </ToolbarContext> */}
+          </ToolbarContext>
         </TableContext>
       </SharedHistoryContext>
     </LexicalComposer>
@@ -127,12 +132,12 @@ function App(): JSX.Element {
 export default function PlaygroundApp(): JSX.Element {
   return (
     <ClientOnly>
-      {/* NOTE: Re-enable this for `/dashboard`
+      {/* NOTE: Re-enable this for `/dashboard`*/}
       <SettingsContext>
-        <FlashMessageContext> */}
-      <App />
-      {/* </FlashMessageContext>
-      </SettingsContext> */}
+        <FlashMessageContext>
+          <App />
+        </FlashMessageContext>
+      </SettingsContext>
     </ClientOnly>
   );
 }

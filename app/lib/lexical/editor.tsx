@@ -28,6 +28,7 @@ import { useLexicalEditable } from "@lexical/react/useLexicalEditable";
 import { CAN_USE_DOM } from "@lexical/utils";
 import { useEffect, useState } from "react";
 
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useSettings } from "./packages/context/SettingsContext";
 import { useSharedHistoryContext } from "./packages/context/SharedHistoryContext";
 import AutocompletePlugin from "./packages/plugins/AutocompletePlugin";
@@ -43,7 +44,6 @@ import DraggableBlockPlugin from "./packages/plugins/DraggableBlockPlugin";
 import EmojiPickerPlugin from "./packages/plugins/EmojiPickerPlugin";
 import EmojisPlugin from "./packages/plugins/EmojisPlugin";
 import EquationsPlugin from "./packages/plugins/EquationsPlugin";
-import ExcalidrawPlugin from "./packages/plugins/ExcalidrawPlugin";
 import FigmaPlugin from "./packages/plugins/FigmaPlugin";
 import FloatingLinkEditorPlugin from "./packages/plugins/FloatingLinkEditorPlugin";
 import FloatingTextFormatToolbarPlugin from "./packages/plugins/FloatingTextFormatToolbarPlugin";
@@ -57,6 +57,7 @@ import { MaxLengthPlugin } from "./packages/plugins/MaxLengthPlugin";
 import MentionsPlugin from "./packages/plugins/MentionsPlugin";
 import PageBreakPlugin from "./packages/plugins/PageBreakPlugin";
 import PollPlugin from "./packages/plugins/PollPlugin";
+import ShortcutsPlugin from "./packages/plugins/ShortcutsPlugin";
 import SpecialTextPlugin from "./packages/plugins/SpecialTextPlugin";
 import SpeechToTextPlugin from "./packages/plugins/SpeechToTextPlugin";
 import TabFocusPlugin from "./packages/plugins/TabFocusPlugin";
@@ -64,6 +65,7 @@ import TableCellActionMenuPlugin from "./packages/plugins/TableActionMenuPlugin"
 import TableCellResizer from "./packages/plugins/TableCellResizer";
 import TableHoverActionsPlugin from "./packages/plugins/TableHoverActionsPlugin";
 import TableOfContentsPlugin from "./packages/plugins/TableOfContentsPlugin";
+import ToolbarPlugin from "./packages/plugins/ToolbarPlugin";
 import TwitterPlugin from "./packages/plugins/TwitterPlugin";
 import YouTubePlugin from "./packages/plugins/YouTubePlugin";
 import ContentEditable from "./packages/ui/ContentEditable";
@@ -87,7 +89,7 @@ export default function Editor(): JSX.Element {
       showTreeView,
       showTableOfContents,
       shouldUseLexicalContextMenu,
-      // shouldPreserveNewLinesInMarkdown,
+      shouldPreserveNewLinesInMarkdown,
       tableCellMerge,
       tableCellBackgroundColor,
       tableHorizontalScroll,
@@ -106,8 +108,8 @@ export default function Editor(): JSX.Element {
     useState<HTMLDivElement | null>(null);
   const [isSmallWidthViewport, setIsSmallWidthViewport] =
     useState<boolean>(false);
-  // const [editor] = useLexicalComposerContext();
-  // const [activeEditor, setActiveEditor] = useState(editor);
+  const [editor] = useLexicalComposerContext();
+  const [activeEditor, setActiveEditor] = useState(editor);
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
@@ -135,7 +137,7 @@ export default function Editor(): JSX.Element {
 
   return (
     <>
-      {/* NOTE: Re-enable this for `/dashboard`
+      {/* NOTE: Re-enable this for `/dashboard`*/}
       {isRichText && (
         <ToolbarPlugin
           editor={editor}
@@ -149,7 +151,7 @@ export default function Editor(): JSX.Element {
           editor={activeEditor}
           setIsLinkEditMode={setIsLinkEditMode}
         />
-      )} */}
+      )}
       <div
         className={`editor-container ${showTreeView ? "tree-view" : ""} ${
           !isRichText ? "plain-text" : ""
@@ -214,7 +216,7 @@ export default function Editor(): JSX.Element {
             <ClickableLinkPlugin disabled={isEditable} />
             <HorizontalRulePlugin />
             <EquationsPlugin />
-            <ExcalidrawPlugin />
+            {/* <ExcalidrawPlugin /> */}
             <TabFocusPlugin />
             <TabIndentationPlugin maxIndent={7} />
             <CollapsiblePlugin />
@@ -264,9 +266,9 @@ export default function Editor(): JSX.Element {
         <div>{showTableOfContents && <TableOfContentsPlugin />}</div>
         {shouldUseLexicalContextMenu && <ContextMenuPlugin />}
         {shouldAllowHighlightingWithBrackets && <SpecialTextPlugin />}
-        {/* // NOTE: Re-enable this for `/dashboard`
-        <ActionsPlugin
-          // // shouldPreserveNewLinesInMarkdown={shouldPreserveNewLinesInMarkdown}
+        {/* // NOTE: Re-enable this for `/dashboard` */}
+        {/* <ActionsPlugin
+          shouldPreserveNewLinesInMarkdown={shouldPreserveNewLinesInMarkdown}
         /> */}
       </div>
       {/* INFO: For debugging

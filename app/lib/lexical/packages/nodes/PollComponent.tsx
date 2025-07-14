@@ -19,10 +19,10 @@ import {
   $getNodeByKey,
   $getSelection,
   $isNodeSelection,
-  BaseSelection,
+  type BaseSelection,
   CLICK_COMMAND,
   COMMAND_PRIORITY_LOW,
-  NodeKey,
+  type NodeKey,
 } from "lexical";
 import { useEffect, useMemo, useRef, useState } from "react";
 

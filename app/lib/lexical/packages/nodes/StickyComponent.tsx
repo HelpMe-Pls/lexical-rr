@@ -22,7 +22,7 @@ import { calculateZoomLevel } from "@lexical/utils";
 import { $getNodeByKey } from "lexical";
 import { useEffect, useLayoutEffect, useRef } from "react";
 
-import { createWebsocketProvider } from "../collaboration";
+import { createWebsocketProvider } from "../../settings/collaboration";
 import { useSharedHistoryContext } from "../context/SharedHistoryContext";
 import StickyEditorTheme from "../themes/StickyEditorTheme";
 import ContentEditable from "../ui/ContentEditable";
